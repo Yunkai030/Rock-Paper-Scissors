@@ -35,7 +35,7 @@ function judge(player, computer) {
 }
 
 function playRound() {
-  const human = getHumanChoice();   
+  const human = getHumanChoice();        
   if (!human) return false;              
   const comp = getComputerChoice();
 
@@ -53,7 +53,6 @@ function playRound() {
   return true;
 }
 
-
 function playGameFixed5() {
   humanScore = 0; computerScore = 0;
   let rounds = 0;
@@ -70,4 +69,4 @@ function playGameFixed5() {
 
 
 playGameFixed5();
-// playGameFirstTo3();
+
