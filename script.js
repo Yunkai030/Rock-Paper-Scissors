@@ -1,28 +1,39 @@
 let humanScore = 0;
 let computerScore = 0;
 
-function capitalize(str) {
-  return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
-}
+const playerChoice = document.createElement("p");
+ 
+const computerChoice = document.createElement("p");
+const resultScore = document.createElement("p");
+const scoreBoard = document.createElement("p");
+
+const divScore = document.querySelector("#result");
+
+divScore.appendChild(playerChoice);
+divScore.appendChild(computerChoice);
+divScore.appendChild(resultScore);
+divScore.appendChild(scoreBoard);
+
+const buttonPaper = document.querySelector("#buttonPaper");
+const buttonRock = document.querySelector("#buttonRock");
+const buttonScissors = document.querySelector("#buttonScissors");
+
+
+buttonPaper.addEventListener("click", () => playRound("Paper"));
+buttonRock.addEventListener("click", () => playRound("Rock"));
+buttonScissors.addEventListener("click", () => playRound("Scissors"));
 
 function getComputerChoice() {
   const choices = ["Rock", "Paper", "Scissors"];
   const pick = choices[Math.floor(Math.random() * 3)];
-  console.log("Computer Choice:", pick);
+  computerChoice.textContent = "Computer's Choice: " + pick;
   return pick;
 }
 
-function getHumanChoice() {
-  const raw = prompt("Choose one: Rock / Paper / Scissors");
-  if (raw == null) return null;                     
-  const choice = capitalize(raw.trim());
-  const valid = ["Rock", "Paper", "Scissors"];
-  if (!valid.includes(choice)) {
-    console.log("Invalid Input!");
-    return null;
-  }
-  console.log("Player Choice:", choice);
-  return choice;
+
+function getHumanChoice(result) {
+  playerChoice.textContent = "Player's Choice: " + result;
+  return result;
 }
 
 function judge(player, computer) {
@@ -34,39 +45,25 @@ function judge(player, computer) {
   return humanWin ? "human" : "computer";
 }
 
-function playRound() {
-  const human = getHumanChoice();        
-  if (!human) return false;              
-  const comp = getComputerChoice();
 
+function playRound(human) {
+  // human to get the user input
+  getHumanChoice(human);
+
+  const comp = getComputerChoice();
   const result = judge(human, comp);
+
   if (result === "draw") {
-    console.log("Draw");
+    resultScore.textContent = "Game Result: " + "Draw!";
   } else if (result === "human") {
     humanScore++;
-    console.log("Player wins!");
+    resultScore.textContent = "Game Result: " +"Player wins!";
   } else {
     computerScore++;
-    console.log("Computer wins!");
+    resultScore.textContent = "Game Result: " +"Computer wins!";
   }
-  console.log(`Score → Human: ${humanScore}, Computer: ${computerScore}`);
-  return true;
+
+  scoreBoard.textContent = `Overall Score → Player: ${humanScore}, Computer: ${computerScore}`;
 }
 
-function playGameFixed5() {
-  humanScore = 0; computerScore = 0;
-  let rounds = 0;
-  while (rounds < 5) {
-    const played = playRound();
-    if (played) rounds++;               
-  }
-  console.log("Final Score →",
-              `Human: ${humanScore}, Computer: ${computerScore}`);
-  console.log(humanScore === computerScore
-    ? "Final Result: Draw"
-    : (humanScore > computerScore ? "Final Result: Player wins" : "Final Result: Computer wins"));
-}
-
-
-playGameFixed5();
 
